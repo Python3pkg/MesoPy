@@ -24,8 +24,8 @@ try:
     import urllib.request
     import urllib.error
 except ImportError:
-    import urllib2
-    import urllib
+    import urllib.request, urllib.error, urllib.parse
+    import urllib.request, urllib.parse, urllib.error
 
 import json
 
@@ -153,9 +153,9 @@ class Meso(object):
         # For python 2.7
         except AttributeError or NameError:
             try:
-                qsp = urllib.urlencode(request_dict, doseq=True)
-                resp = urllib2.urlopen(self.base_url + endpoint + '?' + qsp).read()
-            except urllib2.URLError:
+                qsp = urllib.parse.urlencode(request_dict, doseq=True)
+                resp = urllib.request.urlopen(self.base_url + endpoint + '?' + qsp).read()
+            except urllib.error.URLError:
                 raise MesoPyError(http_error)
         except urllib.error.URLError:
             raise MesoPyError(http_error)
